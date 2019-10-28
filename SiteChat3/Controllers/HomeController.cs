@@ -1,8 +1,10 @@
 ﻿using SiteChat3.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,10 +12,14 @@ namespace SiteChat3.Controllers
 {
     public class HomeController : Controller
     {
+        
         Chat2Entities db = new Chat2Entities();
         Workflow workflow = new Workflow();
-        public ActionResult Index()
+        [DataType(DataType.Date)]
+        public DateTime DateNaissance { get; set; }
+        public ActionResult Index(string erreure)
         {
+            ViewBag.messageErreureConnexion=erreure;
             Utilisateur utilisateur = new Utilisateur();
            
 
@@ -39,7 +45,7 @@ namespace SiteChat3.Controllers
         [HttpPost]
         public ActionResult Connexion(FormCollection collection)
         {
-            ViewBag.messageErreure = "";
+            ViewBag.messageErreureConnexion = "";
             var MailUtilisateur = collection["mail"];
             var MDPUtilisateur = collection["MDP"];
             int utilisateurExiste = (from u in db.Utilisateur where u.EmailUtilisateur == MailUtilisateur && u.MotDePasseUtilisateur == MDPUtilisateur select u).Count();
@@ -49,17 +55,19 @@ namespace SiteChat3.Controllers
             }
             else
             {
-                ViewBag.messageErreure = "email et/ou mot de passe incorrecte(s)";
+                ViewBag.messageErreureConnexion = "email et/ou mot de passe incorrecte(s)";
                 return RedirectToAction("Index", "Home");
+            };
 
             }
 
 
-        }
+        
 
 
         [HttpPost]
-        public ActionResult Inscription(FormCollection collection)
+        
+        public  ActionResult Inscription(FormCollection collection)
         {
             ViewBag.messageErreure = "";
             var MailUtilisateur = collection["mail"];
@@ -67,12 +75,35 @@ namespace SiteChat3.Controllers
             int utilisateurExiste = (from u in db.Utilisateur where u.EmailUtilisateur == MailUtilisateur select u).Count();
             if (utilisateurExiste > 0)
             {
+                Console.WriteLine("ok");
                 ViewBag.MessageErreure = "un compte associé à cette adresse mail existe déjà";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", ViewBag.MessageErreure);
             }
             else
             {
-                ViewBag.messageErreure = "";
+                if (ModelState.IsValid)
+                {
+                    
+                    Utilisateur utilisateur = new Utilisateur();
+                    utilisateur.NomUtilisateur = collection["nomInscription"];
+                    utilisateur.PrenomUtilisateur = collection["prenonInscription"];
+                    utilisateur.PseudoUtilisateur = collection["pseudoInscription"];
+                    utilisateur.EmailUtilisateur = collection["emailIncription"];
+                    utilisateur.IdAvatar = 1;
+                    utilisateur.IdAcces = 4;
+                    utilisateur.NumeroUtilisateur = collection["numeroInscription"];
+                    utilisateur.DateDeNaissanceUtilisateur = Convert.ToDateTime(collection["dateNaissance"]);
+                    utilisateur.DateCreationUtilisateur = DateTime.Now;
+                    utilisateur.MotDePasseUtilisateur = collection["MDPInscription"];
+                    utilisateur.IdStatutUtilisateur = 1;
+                    utilisateur.TokenUtilisateur = "sd4gs64g54s63s64ss4dv64";
+                    db.Utilisateur.Add(utilisateur);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                
+              
+                /*ViewBag.messageErreure = "";
                 //Instanciation du client
                 SmtpClient smtpClient = new SmtpClient("webmaster@cucarachat.com", 25);
                 //On indique au client d'utiliser les informations qu'on va lui fournir
@@ -95,7 +126,7 @@ namespace SiteChat3.Controllers
                 //Copie
                 //mail.CC.Add(new MailAddress("toto@gmail.com"));
 
-                smtpClient.Send(mail);
+                smtpClient.Send(mail);*/
                 return RedirectToAction("Index","Home");
 
             }

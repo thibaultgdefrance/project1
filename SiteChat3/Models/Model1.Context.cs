@@ -34,6 +34,7 @@ namespace SiteChat3.Models
         public virtual DbSet<Niveau> Niveau { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<StatutDiscussion> StatutDiscussion { get; set; }
+        public virtual DbSet<StatutUtilisateur> StatutUtilisateur { get; set; }
         public virtual DbSet<Ton> Ton { get; set; }
         public virtual DbSet<TypeDiscussion> TypeDiscussion { get; set; }
         public virtual DbSet<TypeNotification> TypeNotification { get; set; }

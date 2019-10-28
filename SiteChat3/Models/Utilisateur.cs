@@ -35,10 +35,9 @@ namespace SiteChat3.Models
         public System.DateTime DateCreationUtilisateur { get; set; }
         public Nullable<int> IdAvatar { get; set; }
         public int IdAcces { get; set; }
-        public Nullable<byte> StatutUtilisateur { get; set; }
-        
+        public Nullable<int> IdStatutUtilisateur { get; set; }
         public string TokenUtilisateur { get; set; }
-
+    
         public virtual Acces Acces { get; set; }
         public virtual Avatar Avatar { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -49,6 +48,7 @@ namespace SiteChat3.Models
         public virtual ICollection<Notification> Notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notification1 { get; set; }
+        public virtual StatutUtilisateur StatutUtilisateur { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UtilisateurDiscussion> UtilisateurDiscussion { get; set; }
     }

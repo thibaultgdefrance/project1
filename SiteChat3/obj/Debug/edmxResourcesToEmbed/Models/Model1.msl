@@ -91,6 +91,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="StatutUtilisateur">
+      <EntityTypeMapping TypeName="Chat2Model.StatutUtilisateur">
+        <MappingFragment StoreEntitySet="StatutUtilisateur">
+          <ScalarProperty Name="IdStatutUtilisateur" ColumnName="IdStatutUtilisateur" />
+          <ScalarProperty Name="LibelleStatutUtilisateur" ColumnName="LibelleStatutUtilisateur" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Ton">
       <EntityTypeMapping TypeName="Chat2Model.Ton">
         <MappingFragment StoreEntitySet="Ton">
@@ -129,7 +137,8 @@
           <ScalarProperty Name="DateCreationUtilisateur" ColumnName="DateCreationUtilisateur" />
           <ScalarProperty Name="IdAvatar" ColumnName="IdAvatar" />
           <ScalarProperty Name="IdAcces" ColumnName="IdAcces" />
-          <ScalarProperty Name="StatutUtilisateur" ColumnName="StatutUtilisateur" />
+          <ScalarProperty Name="IdStatutUtilisateur" ColumnName="IdStatutUtilisateur" />
+          <ScalarProperty Name="TokenUtilisateur" ColumnName="TokenUtilisateur" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

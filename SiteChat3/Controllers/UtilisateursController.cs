@@ -18,7 +18,7 @@ namespace SiteChat3.Controllers
         // GET: Utilisateurs
         public async Task<ActionResult> Index()
         {
-            var utilisateur = db.Utilisateur.Include(u => u.Acces).Include(u => u.Avatar);
+            var utilisateur = db.Utilisateur.Include(u => u.Acces).Include(u => u.Avatar).Include(u => u.StatutUtilisateur);
             return View(await utilisateur.ToListAsync());
         }
 
@@ -42,6 +42,7 @@ namespace SiteChat3.Controllers
         {
             ViewBag.IdAcces = new SelectList(db.Acces, "IdAcces", "LibelleAcces");
             ViewBag.IdAvatar = new SelectList(db.Avatar, "IdAvatar", "CheminAvatar");
+            ViewBag.IdStatutUtilisateur = new SelectList(db.StatutUtilisateur, "IdStatutUtilisateur", "LibelleStatutUtilisateur");
             return View();
         }
 
@@ -50,7 +51,7 @@ namespace SiteChat3.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdUtilisateur,NomUtilisateur,PrenomUtilisateur,PseudoUtilisateur,EmailUtilisateur,DateDeNaissanceUtilisateur,NumeroUtilisateur,MotDePasseUtilisateur,DateCreationUtilisateur,IdAvatar,IdAcces,StatutUtilisateur")] Utilisateur utilisateur)
+        public async Task<ActionResult> Create([Bind(Include = "IdUtilisateur,NomUtilisateur,PrenomUtilisateur,PseudoUtilisateur,EmailUtilisateur,DateDeNaissanceUtilisateur,NumeroUtilisateur,MotDePasseUtilisateur,DateCreationUtilisateur,IdAvatar,IdAcces,IdStatutUtilisateur,TokenUtilisateur")] Utilisateur utilisateur)
         {
             if (ModelState.IsValid)
             {
@@ -61,11 +62,64 @@ namespace SiteChat3.Controllers
 
             ViewBag.IdAcces = new SelectList(db.Acces, "IdAcces", "LibelleAcces", utilisateur.IdAcces);
             ViewBag.IdAvatar = new SelectList(db.Avatar, "IdAvatar", "CheminAvatar", utilisateur.IdAvatar);
+            ViewBag.IdStatutUtilisateur = new SelectList(db.StatutUtilisateur, "IdStatutUtilisateur", "LibelleStatutUtilisateur", utilisateur.IdStatutUtilisateur);
             return View(utilisateur);
         }
 
-        // GET: Utilisateurs/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+
+
+        [HttpPost]
+
+        /*public async Task<ActionResult> Inscription(FormCollection collection)
+        {
+            ViewBag.messageErreure = "";
+            var MailUtilisateur = collection["mail"];
+            var MDPUtilisateur = collection["MDP"];
+            int utilisateurExiste = (from u in db.Utilisateur where u.EmailUtilisateur == MailUtilisateur select u).Count();
+            if (utilisateurExiste > 0)
+            {
+                Console.WriteLine("ok");
+                ViewBag.MessageErreure = "un compte associé à cette adresse mail existe déjà";
+                return RedirectToAction("Index", "Home", ViewBag.MessageErreure);
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Console.WriteLine(collection["nomInscription"]);
+                    Utilisateur utilisateur = new Utilisateur();
+                    utilisateur.NomUtilisateur = collection["nomInscription"];
+                    utilisateur.PrenomUtilisateur = collection["prenonInscription"];
+                    utilisateur.PseudoUtilisateur = collection["pseudoInscription"];
+                    utilisateur.EmailUtilisateur = collection["emailIncription"];
+                    utilisateur.IdAvatar = 1;
+                    utilisateur.IdAcces = 4;
+                    utilisateur.DateDeNaissanceUtilisateur = DateTime.Now;
+                    utilisateur.DateCreationUtilisateur = DateTime.Now;
+                    utilisateur.MotDePasseUtilisateur = collection["MDPInscription"];
+                    utilisateur.IdStatutUtilisateur = 1;
+                    utilisateur.TokenUtilisateur = "sd4gs64g54s63s64ss4dv64";
+                    db.Utilisateur.Add(utilisateur);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+
+            }
+        }*/
+
+
+
+
+
+
+
+
+                // GET: Utilisateurs/Edit/5
+                public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -78,6 +132,7 @@ namespace SiteChat3.Controllers
             }
             ViewBag.IdAcces = new SelectList(db.Acces, "IdAcces", "LibelleAcces", utilisateur.IdAcces);
             ViewBag.IdAvatar = new SelectList(db.Avatar, "IdAvatar", "CheminAvatar", utilisateur.IdAvatar);
+            ViewBag.IdStatutUtilisateur = new SelectList(db.StatutUtilisateur, "IdStatutUtilisateur", "LibelleStatutUtilisateur", utilisateur.IdStatutUtilisateur);
             return View(utilisateur);
         }
 
@@ -86,7 +141,7 @@ namespace SiteChat3.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdUtilisateur,NomUtilisateur,PrenomUtilisateur,PseudoUtilisateur,EmailUtilisateur,DateDeNaissanceUtilisateur,NumeroUtilisateur,MotDePasseUtilisateur,DateCreationUtilisateur,IdAvatar,IdAcces,StatutUtilisateur")] Utilisateur utilisateur)
+        public async Task<ActionResult> Edit([Bind(Include = "IdUtilisateur,NomUtilisateur,PrenomUtilisateur,PseudoUtilisateur,EmailUtilisateur,DateDeNaissanceUtilisateur,NumeroUtilisateur,MotDePasseUtilisateur,DateCreationUtilisateur,IdAvatar,IdAcces,IdStatutUtilisateur,TokenUtilisateur")] Utilisateur utilisateur)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +151,7 @@ namespace SiteChat3.Controllers
             }
             ViewBag.IdAcces = new SelectList(db.Acces, "IdAcces", "LibelleAcces", utilisateur.IdAcces);
             ViewBag.IdAvatar = new SelectList(db.Avatar, "IdAvatar", "CheminAvatar", utilisateur.IdAvatar);
+            ViewBag.IdStatutUtilisateur = new SelectList(db.StatutUtilisateur, "IdStatutUtilisateur", "LibelleStatutUtilisateur", utilisateur.IdStatutUtilisateur);
             return View(utilisateur);
         }
 

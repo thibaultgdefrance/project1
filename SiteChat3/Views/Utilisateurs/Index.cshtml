@@ -36,13 +36,16 @@
             @Html.DisplayNameFor(model => model.DateCreationUtilisateur)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StatutUtilisateur)
+            @Html.DisplayNameFor(model => model.TokenUtilisateur)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Acces.LibelleAcces)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Avatar.CheminAvatar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatutUtilisateur.LibelleStatutUtilisateur)
         </th>
         <th></th>
     </tr>
@@ -74,13 +77,16 @@
             @Html.DisplayFor(modelItem => item.DateCreationUtilisateur)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StatutUtilisateur)
+            @Html.DisplayFor(modelItem => item.TokenUtilisateur)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Acces.LibelleAcces)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Avatar.CheminAvatar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatutUtilisateur.LibelleStatutUtilisateur)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdUtilisateur }) |
